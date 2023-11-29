@@ -1,17 +1,15 @@
 package com.demo.ClassBuddy.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "user")
 public class User {
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Id
-    private long id;
+    private Long id;
     private String firstname;
     private String lastname;
     private String username;
