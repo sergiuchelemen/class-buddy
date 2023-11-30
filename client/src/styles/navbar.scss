@@ -1,0 +1,32 @@
+@import "./src/App";
+
+.navbar {
+  width: 100%;
+}
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0rem;
+}
+.navbar-left {
+  display: flex;
+  column-gap: 0.5rem;
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.logo {
+    font-weight: 800;
+    text-shadow: 0px 3.57447px 3.57447px rgba(0, 0, 0, 0.1);
+    @include gradientText;
+}
+.navbar-right {
+}
+.navbar-links {
+  display: flex;
+  column-gap: 2rem;
+}
+.navbar-link {
+}

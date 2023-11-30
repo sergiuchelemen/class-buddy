@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "../styles/register.scss";
+import { Link } from "react-router-dom";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 interface FormData {
   firstName: string;
@@ -40,7 +42,7 @@ const RegistrationForm: React.FC = () => {
     );
     setEmptyFields(emptyFieldNames);
 
-    // Проверка email по регулярному выражению
+    // verify email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setIsEmailValid(false);
@@ -69,8 +71,12 @@ const RegistrationForm: React.FC = () => {
 
   return (
     <div className="register">
-      <h1 className="register-title">Register</h1>
+      <Link to={"/"}>
+        <FaRegArrowAltCircleLeft className="back-home" />
+      </Link>
+
       <div className="register-container">
+        <h1 className="register-title">Register</h1>
         <form onSubmit={handleSubmit} action="" className="register-form">
           <div className="input-group">
             <input
@@ -155,6 +161,10 @@ const RegistrationForm: React.FC = () => {
           </div>
 
           <input type="submit" value="Register" className="submit-btn" />
+
+          <p className="login">
+            Already have an account ? <Link to="/login">Login</Link>
+          </p>
         </form>
       </div>
     </div>

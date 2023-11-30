@@ -12,8 +12,9 @@
   --colorful-3: #e24462; /* Name: Colorful 3 */
 
   --text-color: hsl(var(--hue), var(--sat), 10%); /* black color */
-  --kotlin-bg: #27282c; /* grey color */
-  --body-color: hsl(var(--hue), var(--sat), 98%); /* white color */
+  --kotlin-bg: #27282c; /* kotlin bg */
+  --grey-color: hsl(var(--hue), var(--sat), 50%); /* white color */
+  --body-color: hsl(var(--hue), var(--sat), 90%); /* white color */
   --container-color: #fff;
 
   /*========== Font and typography ==========*/
@@ -49,6 +50,21 @@
   --z-tooltip: 10;
   --z-fixed: 100;
   --z-modal: 1000;
+}
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin gradientText {
+  background: -webkit-linear-gradient(var(--colorful-1), var(--colorful-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 3.57447px 3.57447px rgba(0, 0, 0, 0.1);
+}
+@mixin gradientLiniar {
+  background: linear-gradient(90deg, var(--colorful-1), var(--colorful-3));
 }
 
 /* Responsive typography */

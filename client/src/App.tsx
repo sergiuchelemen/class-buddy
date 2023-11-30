@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import "./App.css";
-import Register from "./components/Register";
+// import { useState, useEffect } from "react";
+import "./App.scss";
+import { Route, Routes } from "react-router-dom";
 
-interface Data {
-  message: string;
-}
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+
+// interface Data {
+//   message: string;
+// }
 
 function App() {
   // const url = "http://localhost:8080/";
@@ -32,7 +35,10 @@ function App() {
   return (
     <div className="app">
       {/* <div>{data ? data.message : "Loading..."}</div> */}
-      <Register />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="register" element={<Register />} />
+      </Routes>
     </div>
   );
 }
