@@ -15,5 +15,7 @@ public class Classroom {
     @JoinColumn(name = "user_id")
     private User owner;
 
+    private String code;
+
     public Classroom(){}
 }
