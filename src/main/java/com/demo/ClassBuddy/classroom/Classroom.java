@@ -7,12 +7,15 @@ import jakarta.persistence.*;
 @Table(name = "classroom")
 public class Classroom {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String subject;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User owner;
+
+    private String code;
 
     public Classroom(){}
 }
