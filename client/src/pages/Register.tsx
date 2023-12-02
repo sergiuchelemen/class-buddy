@@ -11,6 +11,7 @@ interface FormData {
   password: string;
   confirmPassword: string;
   dateOfBirth: string;
+  studentStatus: string;
 }
 
 const RegistrationForm: React.FC = () => {
@@ -22,6 +23,7 @@ const RegistrationForm: React.FC = () => {
     password: "",
     confirmPassword: "",
     dateOfBirth: "",
+    studentStatus: "",
   });
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
@@ -158,6 +160,31 @@ const RegistrationForm: React.FC = () => {
               value={formData.dateOfBirth}
               onChange={handleInputChange}
             />
+
+            {/* <input
+              type="date"
+              placeholder="Date of Birth"
+              className={`form-input ${
+                isFieldEmpty("studentStatus") ? "empty" : ""
+              }`}
+              name="dateOfBirth"
+              value={formData.studentStatus}
+              onChange={handleInputChange}
+            /> */}
+            <select className="form-input">
+              <option value="">Primary School Student</option>
+              <option value="">Basic General Education Student</option>
+              <option value=""> Secondary School Student</option>
+              <option value="">
+                {" "}
+                Lower post-secondary vocational education
+              </option>
+              <option value="">Incomplete Higher Education</option>
+              <option value="">Select Student Status</option>
+              <option value="">Bachelor's Degree</option>
+              <option value="">Master's Degree</option>
+              <option value="">	Postgraduate Degree or PhD</option>
+            </select>
           </div>
 
           <input type="submit" value="Register" className="submit-btn" />
