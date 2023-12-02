@@ -28,7 +28,7 @@ const RegistrationForm: React.FC = () => {
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [isEmailValid, setIsEmailValid] = useState(true); // Состояние для проверки email
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -160,17 +160,7 @@ const RegistrationForm: React.FC = () => {
               value={formData.dateOfBirth}
               onChange={handleInputChange}
             />
-
-            {/* <input
-              type="date"
-              placeholder="Date of Birth"
-              className={`form-input ${
-                isFieldEmpty("studentStatus") ? "empty" : ""
-              }`}
-              name="dateOfBirth"
-              value={formData.studentStatus}
-              onChange={handleInputChange}
-            /> */}
+            
             <select className="form-input">
               <option value="">Primary School Student</option>
               <option value="">Basic General Education Student</option>
