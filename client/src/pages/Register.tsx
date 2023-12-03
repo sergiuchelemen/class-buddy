@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import "../styles/register.scss";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
@@ -35,6 +35,16 @@ const RegistrationForm: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  //verify if passwords match
+  useEffect(() => {
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordsMatch(false);
+    } else {
+      setPasswordsMatch(true);
+    }
+  }, [formData.password, formData.confirmPassword]);
+
+  //send data to backend
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -53,20 +63,13 @@ const RegistrationForm: React.FC = () => {
       setIsEmailValid(true);
     }
 
-    //verify if passwords match
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordsMatch(false);
-      return;
-    } else {
-      setPasswordsMatch(true);
-    }
-
     if (emptyFieldNames.length === 0) {
       console.log(formData);
       setEmptyFields([]);
     }
   };
 
+  //check if field is empty
   const isFieldEmpty = (fieldName: string) => {
     return emptyFields.includes(fieldName);
   };
@@ -160,7 +163,7 @@ const RegistrationForm: React.FC = () => {
               value={formData.dateOfBirth}
               onChange={handleInputChange}
             />
-            
+
             <select className="form-input">
               <option value="">Primary School Student</option>
               <option value="">Basic General Education Student</option>
@@ -173,7 +176,7 @@ const RegistrationForm: React.FC = () => {
               <option value="">Select Student Status</option>
               <option value="">Bachelor's Degree</option>
               <option value="">Master's Degree</option>
-              <option value="">	Postgraduate Degree or PhD</option>
+              <option value=""> Postgraduate Degree or PhD</option>
             </select>
           </div>
 
