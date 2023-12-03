@@ -52,6 +52,7 @@ const Contact: React.FC = () => {
     return emptyFields.includes(fieldName);
   };
 
+  
   return (
     <div className="contact">
       <Link to={"/"}>

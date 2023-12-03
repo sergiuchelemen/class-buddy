@@ -14,11 +14,11 @@ export default function Navbar() {
 
         <div className="navbar-right">
           <ul className="navbar-links">
-            <li className="navbar-link">
+            <li className="navbar-button">
               <Link to={"/register"}>Register</Link>
             </li>
-            <li className="navbar-link">
-              <a href="">Login</a>
+            <li className="navbar-button">
+              <Link to={"/login"}>Login</Link>
             </li>
             <li className="navbar-link">
               <Link to={"/contact"}>Contact</Link>

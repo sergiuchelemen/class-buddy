@@ -179,7 +179,7 @@ const RegistrationForm: React.FC = () => {
 
           <input type="submit" value="Register" className="submit-btn" />
 
-          <p className="login">
+          <p className="login-link">
             Already have an account ? <Link to="/login">Login</Link>
           </p>
         </form>
