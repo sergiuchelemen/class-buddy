@@ -1,5 +1,6 @@
 package com.demo.ClassBuddy.security;
 
+import com.demo.ClassBuddy.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

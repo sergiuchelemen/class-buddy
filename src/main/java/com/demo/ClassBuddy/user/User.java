@@ -13,7 +13,15 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
     @Id
     private Long id;
     private String firstname;
@@ -27,6 +35,15 @@ public class User implements UserDetails {
 
     public User(long id, String firstname, String lastname, String username, String email, String password, Date dateOfBirth) {
         this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public User(String firstname, String lastname, String username, String email, String password, Date dateOfBirth) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
