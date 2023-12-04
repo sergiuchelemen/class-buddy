@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import "../styles/register.scss";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
@@ -11,7 +12,7 @@ interface FormData {
   password: string;
   confirmPassword: string;
   dateOfBirth: string;
-  studentStatus: string;
+  // studentStatus: string;
 }
 
 const RegistrationForm: React.FC = () => {
@@ -23,7 +24,7 @@ const RegistrationForm: React.FC = () => {
     password: "",
     confirmPassword: "",
     dateOfBirth: "",
-    studentStatus: "",
+    // studentStatus: "",
   });
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
@@ -45,7 +46,7 @@ const RegistrationForm: React.FC = () => {
   }, [formData.password, formData.confirmPassword]);
 
   //send data to backend
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     //verify if any fields are empty
@@ -63,10 +64,39 @@ const RegistrationForm: React.FC = () => {
       setIsEmailValid(true);
     }
 
+    // if (emptyFieldNames.length === 0) {
+    //   console.log(formData);
+    //   setEmptyFields([]);
+    // }
+
     if (emptyFieldNames.length === 0) {
-      console.log(formData);
-      setEmptyFields([]);
+      try {
+        //post reques to back-end
+        const response = await axios.post(
+          "http://localhost:8080/register",
+          formData
+        );
+        console.log(response.data);
+        setEmptyFields([]);
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          dateOfBirth: "",
+        });
+        const inputFields = document.querySelectorAll(".form-input");
+        inputFields.forEach((input) => {
+          (input as HTMLInputElement).value = "";
+        });
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
+  
   };
 
   //check if field is empty
@@ -74,6 +104,7 @@ const RegistrationForm: React.FC = () => {
     return emptyFields.includes(fieldName);
   };
 
+  console.log(formData);
   return (
     <div className="register">
       <Link to={"/"}>
