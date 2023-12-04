@@ -1,0 +1,46 @@
+@import "./src/App";
+
+.navbar {
+  width: 100%;
+}
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0rem;
+}
+.navbar-left {
+  display: flex;
+  column-gap: 0.5rem;
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+.logo {
+  font-weight: 800;
+  text-shadow: 0px 3.57447px 3.57447px rgba(0, 0, 0, 0.1);
+  background: -webkit-linear-gradient(var(--colorful-2), var(--colorful-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 3.57447px 3.57447px rgba(0, 0, 0, 0.1);
+}
+.navbar-right {
+}
+.navbar-links {
+  display: flex;
+  column-gap: 2rem;
+  align-items: center;
+}
+.navbar-link {
+}
+.navbar-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--colorful-1);
+  color: var(--body-color);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--colorful-3);
+  }
+}
