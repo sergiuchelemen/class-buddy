@@ -1,33 +1,33 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import "../styles/register.scss";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 interface FormData {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   username: string;
   email: string;
   password: string;
-  confirmPassword: string;
   dateOfBirth: string;
-  studentStatus: string;
+  // studentStatus: string;
 }
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
     dateOfBirth: "",
-    studentStatus: "",
+    // studentStatus: "",
   });
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  // const confirmPassword = useState<string>("");
+  // const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,16 +36,16 @@ const RegistrationForm: React.FC = () => {
   };
 
   //verify if passwords match
-  useEffect(() => {
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordsMatch(false);
-    } else {
-      setPasswordsMatch(true);
-    }
-  }, [formData.password, formData.confirmPassword]);
+  // useEffect(() => {
+  //   if (formData.password !== confirmPassword) {
+  //     setPasswordsMatch(false);
+  //   } else {
+  //     setPasswordsMatch(true);
+  //   }
+  // }, [formData.password, confirmPassword]);
 
   //send data to backend
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     //verify if any fields are empty
@@ -64,10 +64,33 @@ const RegistrationForm: React.FC = () => {
     }
 
     if (emptyFieldNames.length === 0) {
-      console.log(formData);
-      setEmptyFields([]);
+      try {
+        //post reques to back-end
+        const response = await axios.post(
+          "http://localhost:8080/register",
+          formData
+        );
+        console.log(response.data);
+        setEmptyFields([]);
+
+        setFormData({
+          firstname: "",
+          lastname: "",
+          username: "",
+          email: "",
+          password: "",
+          dateOfBirth: "",
+        });
+        const inputFields = document.querySelectorAll(".form-input");
+        inputFields.forEach((input) => {
+          (input as HTMLInputElement).value = "";
+        });
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
+  console.log(formData);
 
   //check if field is empty
   const isFieldEmpty = (fieldName: string) => {
@@ -88,10 +111,10 @@ const RegistrationForm: React.FC = () => {
               type="text"
               placeholder="First Name"
               className={`form-input ${
-                isFieldEmpty("firstName") ? "empty" : ""
+                isFieldEmpty("firstMame") ? "empty" : ""
               }`}
-              name="firstName"
-              value={formData.firstName}
+              name="firstname"
+              value={formData.firstname}
               onChange={handleInputChange}
             />
             <input
@@ -100,8 +123,8 @@ const RegistrationForm: React.FC = () => {
               className={`form-input ${
                 isFieldEmpty("lastName") ? "empty" : ""
               }`}
-              name="lastName"
-              value={formData.lastName}
+              name="lastname"
+              value={formData.lastname}
               onChange={handleInputChange}
             />
           </div>
@@ -140,16 +163,16 @@ const RegistrationForm: React.FC = () => {
               value={formData.password}
               onChange={handleInputChange}
             />
-            <input
+            {/* <input
               type="password"
               placeholder="Confirm Password"
               className={`form-input ${
                 isFieldEmpty("confirmPassword") ? "empty" : ""
               } ${!passwordsMatch ? "empty" : ""}`}
               name="confirmPassword"
-              value={formData.confirmPassword}
+              value={confirmPassword}
               onChange={handleInputChange}
-            />
+            /> */}
           </div>
 
           <div className="input-group">
