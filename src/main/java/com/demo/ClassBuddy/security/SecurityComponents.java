@@ -1,5 +1,6 @@
 package com.demo.ClassBuddy.security;
 
+import com.demo.ClassBuddy.exceptions.UserNotFoundException;
 import com.demo.ClassBuddy.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,17 +8,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+
 
 @Configuration
-public class SecurityUtils {
+public class SecurityComponents {
     private final UserRepository userRepository;
 
-    public SecurityUtils(UserRepository userRepository){
+    public SecurityComponents(UserRepository userRepository){
         this.userRepository = userRepository;
     }
     @Bean
@@ -28,7 +28,7 @@ public class SecurityUtils {
     @Bean
     public UserDetailsService userDetailsService(){
         return email -> userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
