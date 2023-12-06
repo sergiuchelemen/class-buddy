@@ -1,11 +1,12 @@
 package com.demo.ClassBuddy.security;
 
-import com.demo.ClassBuddy.user.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +16,36 @@ import java.time.Instant;
 
 @Service
 public class JwtTokenService {
-    final String SECRET_KEY = "765dccfb6644ca95e30e8a1c6965f81525eb8c30e7db8fc02de927872c861e63";
+    @Value("${accessTokenExpirationTime}")
+    private long accessTokenExpirationTime;
 
-    public String generateToken(UserDetails userDetails){
+    @Value("${refreshTokenExpirationTime}")
+    private long refreshTokenExpirationTime;
+
+    @Value("${SECRET_KEY}")
+    private String secretKey;
+
+
+    private String buildToken(UserDetails userDetails, long expirationTime){
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plusMillis(1000 * 60 * 24)))
+                .expiration(Date.from(Instant.now().plusMillis(expirationTime))) // 1000 * 60 * 24
                 .signWith(getSecretKey())
                 .compact();
     }
 
+    public String generateAccessToken(UserDetails userDetails){
+        return buildToken(userDetails, accessTokenExpirationTime);
+    }
+
+    public String generateRefreshToken(UserDetails userDetails){
+        return buildToken(userDetails, refreshTokenExpirationTime);
+    }
+
+
     public SecretKey getSecretKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
