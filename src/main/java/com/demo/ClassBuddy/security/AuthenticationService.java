@@ -103,7 +103,7 @@ public class AuthenticationService {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
             if(jwtTokenService.isTokenValid(refreshToken, userDetails)){
                 String accessToken = jwtTokenService.generateAccessToken(userDetails);
-                new ObjectMapper().writeValue(response.getOutputStream(), new RefreshTokenResponse(accessToken, refreshToken));
+                new ObjectMapper().writeValue(response.getOutputStream(), new RefreshTokenResponse(accessToken));
             }
         }
     }
