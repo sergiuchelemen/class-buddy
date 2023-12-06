@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "../styles/contact.scss";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
@@ -43,8 +44,24 @@ const Contact: React.FC = () => {
     }
 
     if (emptyFieldNames.length === 0) {
-      console.log(formData);
-      setEmptyFields([]);
+      try {
+        const response = axios.post("http://localhost:8080/contact", formData);
+        // console.log(response.data);
+        console.log(response)
+        setEmptyFields([]);
+
+        setFormData({
+          username: "",
+          email: "",
+          message: "",
+        });
+        const inputFields = document.querySelectorAll(".form-input");
+        inputFields.forEach((input) => {
+          (input as HTMLInputElement).value = "";
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -52,7 +69,6 @@ const Contact: React.FC = () => {
     return emptyFields.includes(fieldName);
   };
 
-  
   return (
     <div className="contact">
       <Link to={"/"}>
