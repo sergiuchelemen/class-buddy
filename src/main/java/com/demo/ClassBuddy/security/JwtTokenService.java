@@ -30,7 +30,7 @@ public class JwtTokenService {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plusMillis(expirationTime))) // 1000 * 60 * 24
+                .expiration(Date.from(Instant.now().plusSeconds(expirationTime)))
                 .signWith(getSecretKey())
                 .compact();
     }

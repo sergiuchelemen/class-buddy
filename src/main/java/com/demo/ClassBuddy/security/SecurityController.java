@@ -39,4 +39,9 @@ public class SecurityController {
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+
+    @GetMapping("/logout")
+    public String performLogout() {
+        return "Logout successfully";
+    }
 }
