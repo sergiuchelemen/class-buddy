@@ -47,7 +47,7 @@ const RegistrationForm: React.FC = () => {
       setPasswordsMatch(true);
     }
   }, [formData.password, confirmPassword]);
-  console.log(confirmPassword);
+  
   //send data to backend
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
