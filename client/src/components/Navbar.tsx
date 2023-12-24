@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/navbar.scss";
-import logo from "../img/classBuddy-logo.png";
+import logo from "../assets/classBuddy-logo.png";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-content">
         <div className="navbar-left">
-          <img src={logo} alt="" />
+          <img src={logo} alt="classbuddy" />
           <h1 className="logo">ClassBuddy</h1>
         </div>
 

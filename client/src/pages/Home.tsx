@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/home.scss";
 import Navbar from "../components/Navbar";
-import logo from "../img/classBuddy-alternative.png";
+import buddy from "../assets/buddy.png";
 
 export default function Home() {
   return (
@@ -11,14 +11,22 @@ export default function Home() {
         <section className="hero">
           <div className="hero__content">
             <div className="content-text">
-              <h1 className="text-title">ClassBuddy</h1>
+              <h1 className="text-title">
+                Find Your Buddy on{" "}
+                <span className="logo">
+                  ClassBuddy <img className="icon" src={buddy} alt="" />
+                </span>{" "}
+              </h1>
               <p className="text-description">
                 ClassBuddy is a web application that allows students to connect
                 with each other and form study groups.
               </p>
             </div>
             <div className="content-image">
-              <img src={logo} alt="" />
+              <img
+                src="https://media1.giphy.com/media/RemHbGtR3lNsqyERMS/giphy.gif?cid=790b7611hmin5fyd2e8igi1wzm2ee2fxl48v70esgdn9ndtn&ep=v1_gifs_search&rid=giphy.gif&ct=s"
+                alt=""
+              />
             </div>
           </div>
         </section>
