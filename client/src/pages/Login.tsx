@@ -83,7 +83,9 @@ const Login: React.FC = () => {
               onChange={handleInputChange}
             />
           </div>
-
+          <p className="login-link">
+            Don't have an account ? <Link to="/register">Register</Link>
+          </p>
           <input type="submit" value="Login" className="login-btn" />
         </form>
       </div>
