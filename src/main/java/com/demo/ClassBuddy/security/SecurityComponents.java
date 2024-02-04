@@ -1,6 +1,6 @@
 package com.demo.ClassBuddy.security;
 
-import com.demo.ClassBuddy.exceptions.UserNotFoundException;
+import com.demo.ClassBuddy.exception.UserNotFoundException;
 import com.demo.ClassBuddy.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,21 +16,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityComponents {
     private final UserRepository userRepository;
 
-    public SecurityComponents(UserRepository userRepository){
+    public SecurityComponents(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return email -> userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Invalid email"));
     }
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
@@ -38,7 +40,7 @@ public class SecurityComponents {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }

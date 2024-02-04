@@ -1,4 +1,4 @@
-package com.demo.ClassBuddy.exceptions;
+package com.demo.ClassBuddy.exception;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(String detail) {

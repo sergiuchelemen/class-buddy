@@ -1,4 +1,4 @@
-package com.demo.ClassBuddy.exceptions;
+package com.demo.ClassBuddy.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @ControllerAdvice
 public class ApiExceptionHandler {
     @ExceptionHandler(value = {UserAlreadyExistsException.class})
-    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException e){
+    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.CONFLICT,
@@ -21,7 +21,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {UserNotFoundException.class})
-    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException e){
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.NOT_FOUND,

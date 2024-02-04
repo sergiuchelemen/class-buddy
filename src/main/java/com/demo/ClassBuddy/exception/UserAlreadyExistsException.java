@@ -1,4 +1,4 @@
-package com.demo.ClassBuddy.exceptions;
+package com.demo.ClassBuddy.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(String detail) {

@@ -1,4 +1,4 @@
-package com.demo.ClassBuddy.exceptions;
+package com.demo.ClassBuddy.exception;
 
 import org.springframework.http.HttpStatus;
 
