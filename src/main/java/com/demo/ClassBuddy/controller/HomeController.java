@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/")
+@CrossOrigin(origins = "http://localhost:5173")
 public class HomeController {
     ClassroomService classroomService;
 

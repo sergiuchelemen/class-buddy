@@ -13,6 +13,26 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+  
+  //fetching data
+  let url:string = "http://localhost:8080/login"; 
+
+  const fetchData = async(url:string) => {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    return data
+  };
+  fetchData(url);
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -42,7 +62,6 @@ const Login: React.FC = () => {
     }
 
     if (emptyFieldNames.length === 0) {
-      console.log(formData);
       setEmptyFields([]);
     }
   };
