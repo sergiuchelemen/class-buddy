@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import "../styles/register.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -26,24 +26,28 @@ const RegistrationForm: React.FC = () => {
   });
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
-  // const confirmPassword = useState<string>("");
-  // const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "confirmPassword") {
+      setConfirmPassword(value);
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  //verify if passwords match
-  // useEffect(() => {
-  //   if (formData.password !== confirmPassword) {
-  //     setPasswordsMatch(false);
-  //   } else {
-  //     setPasswordsMatch(true);
-  //   }
-  // }, [formData.password, confirmPassword]);
-
+  // verify if passwords match
+  useEffect(() => {
+    if (formData.password !== confirmPassword) {
+      setPasswordsMatch(false);
+    } else {
+      setPasswordsMatch(true);
+    }
+  }, [formData.password, confirmPassword]);
+  
   //send data to backend
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +94,6 @@ const RegistrationForm: React.FC = () => {
       }
     }
   };
-  console.log(formData);
 
   //check if field is empty
   const isFieldEmpty = (fieldName: string) => {
@@ -163,7 +166,7 @@ const RegistrationForm: React.FC = () => {
               value={formData.password}
               onChange={handleInputChange}
             />
-            {/* <input
+            <input
               type="password"
               placeholder="Confirm Password"
               className={`form-input ${
@@ -172,7 +175,7 @@ const RegistrationForm: React.FC = () => {
               name="confirmPassword"
               value={confirmPassword}
               onChange={handleInputChange}
-            /> */}
+            />
           </div>
 
           <div className="input-group">

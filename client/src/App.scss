@@ -141,6 +141,12 @@ img {
   max-width: 100%;
   height: auto;
 }
+.icon {
+  width: 5rem;
+  height: 5rem;
+  display: inline;
+  fill: var(--title-color);
+}
 
 /*=============== BREAKPOINTS ===============*/
 /* For large devices */
