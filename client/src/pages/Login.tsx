@@ -17,6 +17,7 @@ const Login: React.FC = () => {
   //access token
   const [accessToken, setAccessToken] = useState<string>('');
 
+  //validation
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
