@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import "../styles/login.scss";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
@@ -13,26 +13,9 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
-  
-  //fetching data
-  let url:string = "http://localhost:8080/login"; 
 
-  const fetchData = async(url:string) => {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-    return data
-  };
-  fetchData(url);
+  //access token
+  const [accessToken, setAccessToken] = useState<string>('');
 
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -84,9 +67,8 @@ const Login: React.FC = () => {
             <input
               type="text"
               placeholder="Email"
-              className={`form-input ${isFieldEmpty("email") ? "empty" : ""} ${
-                !isEmailValid ? "empty" : ""
-              }`}
+              className={`form-input ${isFieldEmpty("email") ? "empty" : ""} ${!isEmailValid ? "empty" : ""
+                }`}
               name="email"
               value={formData.email}
               onChange={handleInputChange}
@@ -94,9 +76,8 @@ const Login: React.FC = () => {
             <input
               type="password"
               placeholder="Password"
-              className={`form-input ${
-                isFieldEmpty("password") ? "empty" : ""
-              }`}
+              className={`form-input ${isFieldEmpty("password") ? "empty" : ""
+                }`}
               name="password"
               value={formData.password}
               onChange={handleInputChange}
