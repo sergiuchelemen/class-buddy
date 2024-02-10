@@ -18,11 +18,29 @@ const Login: React.FC = () => {
   fetch('http://localhost:8080/login')
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      const accessToken = data.accessToken;
+      console.log("Access Token:", accessToken);
+
+      // Make another request using the access token
+      fetch('http://localhost:5173/login', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); //
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     })
     .catch(error => {
       console.error('Error:', error);
     });
+
 
 
   //validation
