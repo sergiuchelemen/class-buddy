@@ -15,7 +15,15 @@ const Login: React.FC = () => {
   });
 
   //access token
-  const [accessToken, setAccessToken] = useState<string>('');
+  fetch('http://localhost:8080/login')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
 
   //validation
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
