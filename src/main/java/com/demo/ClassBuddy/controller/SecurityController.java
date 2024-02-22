@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin("*")
 public class SecurityController {
     private final AuthenticationService authenticationService;
 

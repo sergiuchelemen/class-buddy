@@ -8,22 +8,31 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin("*")
 public class HomeController {
     ClassroomService classroomService;
 
     @Autowired
-    public HomeController(ClassroomService classroomService){
+    public HomeController(ClassroomService classroomService) {
         this.classroomService = classroomService;
     }
 
     @GetMapping("/home")
     public String hello() {
         return "Welcome to home page!";
+    }
+
+    @GetMapping("/")
+    public Object root() {
+        Map<String, Object> object = new HashMap<>();
+        object.put("key1", "value1");
+        object.put("key2", "value2");
+        return object;
     }
 
     @GetMapping("/test")
@@ -36,6 +45,7 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         classroomService.createClass(newClassRequest, authentication.getName());
     }
+
     @PostMapping("/join-class")
     public void joinClass(@RequestBody JoinClassRequest joinClassRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,7 +53,7 @@ public class HomeController {
     }
 
     @GetMapping("/get-classes")
-    public String getClasses(){
+    public String getClasses() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return classroomService.getClasses(authentication.getName());
     }

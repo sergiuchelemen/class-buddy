@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import "../styles/login.scss";
 import { Link } from "react-router-dom";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
@@ -15,33 +15,48 @@ const Login: React.FC = () => {
   });
 
   //access token
-  fetch('http://localhost:8080/login')
-    .then(response => response.json())
-    .then(data => {
-      const accessToken = data.accessToken;
-      console.log("Access Token:", accessToken);
+  // fetch('http://localhost:8080/login')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     const accessToken = data.accessToken;
+  //     console.log("Access Token:", accessToken);
+  //
+  //     // Make another request using the access token
+  //     fetch('http://localhost:8080/login', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Authorization': `Bearer ${accessToken}`,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         console.log(data); //
+  //       })
+  //       .catch(error => {
+  //         console.error('Error:', error);
+  //       });
+  //   })
+  //   .catch(error => {
+  //     console.error('Error:', error);
+  //   });
 
-      // Make another request using the access token
-      fetch('http://localhost:5173/login', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data); //
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+  fetch('http://localhost:8080/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      formData
     })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-
+  })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 
   //validation
   const [emptyFields, setEmptyFields] = useState<string[]>([]);
