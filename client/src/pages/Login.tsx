@@ -47,7 +47,7 @@ const Login: React.FC = () => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      formData
+      formData // nu stiu daca asa trebuie
     })
   })
       .then(response => response.json())
