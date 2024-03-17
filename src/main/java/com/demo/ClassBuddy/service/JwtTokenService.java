@@ -1,11 +1,11 @@
-package com.demo.ClassBuddy.security;
+package com.demo.ClassBuddy.service;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -68,5 +68,4 @@ public class JwtTokenService {
         String userEmail = extractEmail(token);
         return userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
-
 }

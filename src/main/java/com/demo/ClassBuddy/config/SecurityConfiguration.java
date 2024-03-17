@@ -1,5 +1,6 @@
-package com.demo.ClassBuddy.security;
+package com.demo.ClassBuddy.config;
 
+import com.demo.ClassBuddy.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf((AbstractHttpConfigurer::disable))
                 .authorizeHttpRequests((authorize) -> authorize

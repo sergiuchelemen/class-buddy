@@ -1,7 +1,7 @@
 package com.demo.ClassBuddy.security;
 
 import com.demo.ClassBuddy.exception.UserNotFoundException;
-import com.demo.ClassBuddy.user.UserRepository;
+import com.demo.ClassBuddy.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,7 +1,7 @@
-package com.demo.ClassBuddy.user;
+package com.demo.ClassBuddy.repository;
 
+import com.demo.ClassBuddy.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

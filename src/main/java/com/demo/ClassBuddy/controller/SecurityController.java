@@ -1,41 +1,32 @@
 package com.demo.ClassBuddy.controller;
 
 
-import com.demo.ClassBuddy.security.AuthenticationService;
+import com.demo.ClassBuddy.model.User;
+import com.demo.ClassBuddy.service.AuthenticationService;
 import com.demo.ClassBuddy.utility.AuthenticationRequest;
-import com.demo.ClassBuddy.utility.AuthenticationResponse;
-import com.demo.ClassBuddy.utility.RegisterRequest;
+import com.demo.ClassBuddy.utility.LoginResponse;
 import com.demo.ClassBuddy.utility.RegisterResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/")
+@AllArgsConstructor
 @CrossOrigin("*")
 public class SecurityController {
     private final AuthenticationService authenticationService;
 
-    @Autowired
-    public SecurityController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
-
     @PostMapping(path = "/register")
-    public ResponseEntity<RegisterResponse> register(
-            @RequestBody RegisterRequest request
-    ) {
-        return authenticationService.register(request);
+    public RegisterResponse register(@RequestBody User user) {
+        return authenticationService.register(user);
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) {
+    public LoginResponse authenticate(@RequestBody AuthenticationRequest request) {
         return authenticationService.authenticate(request);
     }
 

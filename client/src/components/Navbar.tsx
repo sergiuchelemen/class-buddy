@@ -1,4 +1,3 @@
-import React from "react";
 import "../styles/navbar.scss";
 import logo from "../assets/classBuddy-logo.png";
 import { Link } from "react-router-dom";
