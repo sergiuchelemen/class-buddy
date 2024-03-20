@@ -1,5 +1,6 @@
 package com.demo.ClassBuddy.service;
 
+import com.demo.ClassBuddy.exception.ExpiredTokenException;
 import com.demo.ClassBuddy.exception.UserAlreadyExistsException;
 import com.demo.ClassBuddy.exception.UserNotFoundException;
 import com.demo.ClassBuddy.model.User;
@@ -58,7 +59,7 @@ public class AuthenticationService {
             String accessToken = jwtTokenService.generateAccessToken(user);
             String refreshToken = jwtTokenService.generateRefreshToken(user);
             return new LoginResponse(
-                    "User successfully logged in",
+                    "User successfully logged in.",
                     ZonedDateTime.now(),
                     accessToken,
                     refreshToken
@@ -68,10 +69,10 @@ public class AuthenticationService {
         }
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
         String refreshToken = authHeader.substring(7);
+
         String userEmail = jwtTokenService.extractEmail(refreshToken);
         if (userEmail != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class ClassroomService {
     private final ClassroomRepository classroomRepository;
 
     private final UserRepository userRepository;
