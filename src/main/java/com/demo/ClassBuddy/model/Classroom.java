@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class Classroom {
 
     private String code;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
     private User owner;
 
