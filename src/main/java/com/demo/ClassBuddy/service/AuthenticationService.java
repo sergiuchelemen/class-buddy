@@ -69,7 +69,7 @@ public class AuthenticationService {
         }
     }
 
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken = authHeader.substring(7);
 

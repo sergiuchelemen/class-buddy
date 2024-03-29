@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
@@ -17,7 +19,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.CONFLICT,
-                ZonedDateTime.now()
+                Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
@@ -27,7 +29,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.UNAUTHORIZED,
-                ZonedDateTime.now()
+                Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.UNAUTHORIZED);
     }
@@ -37,7 +39,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.NOT_FOUND,
-                ZonedDateTime.now()
+                Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
@@ -47,7 +49,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.CONFLICT,
-                ZonedDateTime.now()
+                Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
@@ -58,7 +60,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.UNAUTHORIZED,
-                ZonedDateTime.now()
+                Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.UNAUTHORIZED);
     }

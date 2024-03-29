@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("message", "Token is invalid or expired.");
         errorResponse.put("httpStatus", "Unauthorized");
-        errorResponse.put("timestamp", String.valueOf(LocalDateTime.now()));
+        errorResponse.put("timestamp", String.valueOf(Timestamp.valueOf(LocalDateTime.now())));
         errorResponse.put("redirectTo", "/login");
 
         PrintWriter writer = response.getWriter();
