@@ -64,4 +64,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return new ResponseEntity<>(apiException, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(value = {ClassroomAlreadyExistsException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleAuthenticationException(ClassroomAlreadyExistsException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                HttpStatus.CONFLICT,
+                Timestamp.valueOf(LocalDateTime.now())
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+    }
 }

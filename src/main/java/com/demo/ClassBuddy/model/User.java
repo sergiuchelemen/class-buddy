@@ -6,10 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -36,8 +36,8 @@ public class User implements UserDetails {
 
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Classroom> ownedClassrooms;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    private List<Classroom> ownedClassrooms = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

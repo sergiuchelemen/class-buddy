@@ -2,8 +2,10 @@ package com.demo.ClassBuddy.service;
 
 import com.demo.ClassBuddy.dto.ClassroomDTO;
 import com.demo.ClassBuddy.dto.ClassroomDTOMapper;
+import com.demo.ClassBuddy.exception.ClassroomAlreadyExistsException;
 import com.demo.ClassBuddy.exception.ClassroomNotFound;
 import com.demo.ClassBuddy.exception.StudentAlreadyEnrolledException;
+import com.demo.ClassBuddy.exception.UserNotFoundException;
 import com.demo.ClassBuddy.model.Classroom;
 import com.demo.ClassBuddy.model.User;
 import com.demo.ClassBuddy.repository.ClassroomRepository;
@@ -11,7 +13,6 @@ import com.demo.ClassBuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,18 +29,24 @@ public class ClassroomService {
     private final ClassroomDTOMapper classroomDTOMapper;
 
     @Transactional
-    public void createClassroom(Classroom classroom, User authenticatedUser) {
+    public ClassroomDTO createClassroom(Classroom classroom, User authenticatedUser) {
+        Optional<Classroom> seekedClassroom = classroomRepository.findClassroomByName(classroom.getName());
+        if (seekedClassroom.isPresent()) {
+            throw new ClassroomAlreadyExistsException("A classroom with same name is already created.");
+        }
+
+        User user = retrieveUserFromDatabase(authenticatedUser);
         String classroomCode = generateClassroomCode();
         classroom.setCode(classroomCode);
-        classroom.setOwner(authenticatedUser);
+        classroom.setOwner(user);
 
-        classroomRepository.save(classroom);
+        Classroom createdClassroom = classroomRepository.save(classroom);
+        return classroomDTOMapper.apply(createdClassroom);
     }
 
     @Transactional
     public List<ClassroomDTO> getOwnedClassrooms(User authenticatedUser) {
         User user = retrieveUserFromDatabase(authenticatedUser);
-
         return user.getOwnedClassrooms()
                 .stream()
                 .map(classroomDTOMapper)
@@ -49,7 +56,6 @@ public class ClassroomService {
     @Transactional
     public List<ClassroomDTO> getEnrolledClassrooms(User authenticatedUser) {
         User user = retrieveUserFromDatabase(authenticatedUser);
-
         return user.getEnrolledClassrooms()
                 .stream()
                 .map(classroomDTOMapper)
@@ -75,11 +81,10 @@ public class ClassroomService {
     public ClassroomDTO getOwnedClassroomContent(User authenticatedUser, String classroomId) {
         User user = retrieveUserFromDatabase(authenticatedUser);
 
-        Optional<Classroom> matchingClassroom = user.getOwnedClassrooms().stream()
+        return user.getOwnedClassrooms().stream()
                 .filter(classroom -> classroom.getId().equals(Long.valueOf(classroomId)))
-                .findFirst();
-
-        return matchingClassroom.map(classroomDTOMapper)
+                .findFirst()
+                .map(classroomDTOMapper)
                 .orElseThrow(() -> new ClassroomNotFound("The id provided is not related with any class."));
     }
 
@@ -87,17 +92,16 @@ public class ClassroomService {
     public ClassroomDTO getEnrolledClassroomsContent(User authenticatedUser, String classroomId) {
         User user = retrieveUserFromDatabase(authenticatedUser);
 
-        Optional<Classroom> matchingClassroom = user.getEnrolledClassrooms().stream()
+        return user.getEnrolledClassrooms().stream()
                 .filter(classroom -> classroom.getId().equals(Long.valueOf(classroomId)))
-                .findFirst();
-
-        return matchingClassroom.map(classroomDTOMapper)
+                .findFirst()
+                .map(classroomDTOMapper)
                 .orElseThrow(() -> new ClassroomNotFound("The id provided is not related with any class."));
     }
 
     private User retrieveUserFromDatabase(User authenticatedUser) {
         return userRepository.findById(authenticatedUser.getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found. Please log in again."));
+                .orElseThrow(() -> new UserNotFoundException("User not found. Please log in again."));
     }
 
     private String generateClassroomCode() {

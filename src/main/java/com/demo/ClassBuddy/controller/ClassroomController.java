@@ -18,8 +18,8 @@ public class ClassroomController {
     private final ClassroomService classroomService;
 
     @PostMapping(path = "/create-classroom")
-    public void createClassroom(@RequestBody Classroom classroom, @AuthenticationPrincipal User authenticatedUser) {
-        classroomService.createClassroom(classroom, authenticatedUser);
+    public ClassroomDTO createClassroom(@RequestBody Classroom classroom, @AuthenticationPrincipal User authenticatedUser) {
+        return classroomService.createClassroom(classroom, authenticatedUser);
     }
 
     @GetMapping(path = "/owned-classrooms")
