@@ -1,3 +1,5 @@
 package com.demo.ClassBuddy.utility;
 
-public record RefreshTokenResponse(String accessToken) { }
+import java.sql.Timestamp;
+
+public record RefreshTokenResponse(String accessToken, Timestamp timestamp) { }

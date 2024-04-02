@@ -27,8 +27,7 @@ public class SecurityComponents {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("Invalid email"));
+        return new CustomUserDetailsService(userRepository);
     }
 
     @Bean

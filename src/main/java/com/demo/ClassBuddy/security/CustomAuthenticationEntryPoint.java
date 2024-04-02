@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("message", "Token is invalid or expired.");
+        errorResponse.put("message", "Token is missing, invalid or expired.");
         errorResponse.put("httpStatus", "Unauthorized");
         errorResponse.put("timestamp", String.valueOf(Timestamp.valueOf(LocalDateTime.now())));
         errorResponse.put("redirectTo", "/login");
