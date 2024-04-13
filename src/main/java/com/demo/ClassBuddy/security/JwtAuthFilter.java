@@ -2,6 +2,7 @@ package com.demo.ClassBuddy.security;
 
 import com.demo.ClassBuddy.exception.UnauthorizedException;
 import com.demo.ClassBuddy.service.JwtTokenService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String userEmail = jwtTokenService.extractEmail(jwtToken);
             authenticateUser(jwtToken, userEmail, request);
-        } catch (Exception e) {
+        } catch (JwtException e) {
             entryPoint.commence(request, response, new UnauthorizedException("Token is missing, invalid or expired."));
             return;
         }

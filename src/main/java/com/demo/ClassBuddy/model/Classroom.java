@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Builder
 public class Classroom {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column

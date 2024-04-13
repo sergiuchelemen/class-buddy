@@ -28,17 +28,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ClassroomServiceTest {
     @Mock
-    ClassroomRepository classroomRepository;
+    private ClassroomRepository classroomRepository;
     @Mock
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Mock
-    ClassroomDTOMapper classroomDTOMapper;
+    private ClassroomDTOMapper classroomDTOMapper;
     @InjectMocks
-    ClassroomService classroomService;
-
-    Classroom mathClassroom, historyClassroom, chemistryClassroom;
-    ClassroomDTO mathClassroomDTO, historyClassroomDTO, chemistryClassroomDTO;
-    User user;
+    private ClassroomService classroomService;
+    private Classroom mathClassroom, historyClassroom, chemistryClassroom;
+    private ClassroomDTO mathClassroomDTO, historyClassroomDTO, chemistryClassroomDTO;
+    private User user;
 
     @BeforeEach
     public void setup() {

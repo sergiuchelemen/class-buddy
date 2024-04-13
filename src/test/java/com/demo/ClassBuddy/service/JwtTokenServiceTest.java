@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class JwtTokenServiceTest {
-    User user;
-    String token;
-    String refreshToken;
+    private User user;
+    private String token;
+    private String refreshToken;
 
     private final JwtTokenService jwtTokenService = JwtTokenService.builder()
             .ACCESS_TOKEN_EXP_TIME(3600)

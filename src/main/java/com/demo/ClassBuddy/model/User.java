@@ -19,6 +19,7 @@ import java.util.List;
 @Getter
 @Builder
 public class User implements UserDetails {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column

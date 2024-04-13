@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -35,7 +34,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {ClassroomNotFound.class})
-    public ResponseEntity<Object> handleExpiredTokenException(ClassroomNotFound e) {
+    public ResponseEntity<Object> handleClassroomNotFoundException(ClassroomNotFound e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.NOT_FOUND,
@@ -56,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {AuthenticationException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException e) {
+    public ResponseEntity<Object> handleClassroomAlreadyExistsException(AuthenticationException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.UNAUTHORIZED,
@@ -67,12 +66,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {ClassroomAlreadyExistsException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleAuthenticationException(ClassroomAlreadyExistsException e) {
+    public ResponseEntity<Object> handleClassroomAlreadyExistsException(ClassroomAlreadyExistsException e) {
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 HttpStatus.CONFLICT,
                 Timestamp.valueOf(LocalDateTime.now())
         );
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = {UnauthorizedException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e) {
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED,
+                Timestamp.valueOf(LocalDateTime.now())
+        );
+        return new ResponseEntity<>(apiException, HttpStatus.UNAUTHORIZED);
     }
 }

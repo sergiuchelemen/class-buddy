@@ -2,6 +2,7 @@ package com.demo.ClassBuddy.controller;
 
 
 import com.demo.ClassBuddy.model.User;
+import com.demo.ClassBuddy.repository.UserRepository;
 import com.demo.ClassBuddy.service.JwtTokenService;
 import com.demo.ClassBuddy.utility.AuthenticationRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -41,6 +43,9 @@ class SecurityControllerTest {
 
     @Autowired
     private JwtTokenService jwtTokenService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private User user;
 
@@ -76,10 +81,18 @@ class SecurityControllerTest {
     public void testRegister() throws Exception {
         String request = objectMapper.writeValueAsString(user);
 
+        userRepository.delete(user);
+
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("User successfully created."))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.newUser.id").value(1))
+                .andExpect(jsonPath("$.newUser.firstname").value("John"))
+                .andExpect(jsonPath("$.newUser.lastname").value("Doe"))
+                .andExpect(jsonPath("$.newUser.email").value("johndoe@email.com"));
     }
 
     @Test
@@ -90,7 +103,11 @@ class SecurityControllerTest {
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.httpStatus").value("CONFLICT"))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.message").value("User already exists."));
+
     }
 
     @Test
@@ -99,12 +116,13 @@ class SecurityControllerTest {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest("johndoe@email.com", "1234");
         String request = objectMapper.writeValueAsString(authenticationRequest);
 
-        System.out.println(request);
-
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.refreshToken").isNotEmpty())
+                .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
 
     @Test
@@ -116,7 +134,10 @@ class SecurityControllerTest {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.httpStatus").value("UNAUTHORIZED"))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.message").value("Invalid email."));
     }
 
     @Test
@@ -128,7 +149,10 @@ class SecurityControllerTest {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.httpStatus").value("UNAUTHORIZED"))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.message").value("Invalid password."));
     }
 
     @Test
@@ -137,7 +161,9 @@ class SecurityControllerTest {
         mockMvc.perform(post("/refresh-token")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateToken())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
 
     @Test
@@ -146,7 +172,10 @@ class SecurityControllerTest {
         mockMvc.perform(post("/refresh-token")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + "dummyToken")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.httpStatus").value("UNAUTHORIZED"))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty())
+                .andExpect(jsonPath("$.message").value("Token is missing, invalid or expired."));
     }
 
     private String generateToken() {
