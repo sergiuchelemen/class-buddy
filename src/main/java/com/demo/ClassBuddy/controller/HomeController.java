@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * REST controller for testing purposes.
+ */
 @RestController
 @RequestMapping(path = "/")
 @CrossOrigin("*")
 public class HomeController {
+
     @GetMapping("/home")
     public Map<String, String> hello() {
         Map<String, String> response = new HashMap<>();
