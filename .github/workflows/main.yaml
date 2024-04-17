@@ -1,4 +1,4 @@
-name: ClassBuddy workflow
+name: CI workflow
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-deploy:
-    name: Build and deploy ClassBuddy
+    name: Continuous integration with Maven
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
