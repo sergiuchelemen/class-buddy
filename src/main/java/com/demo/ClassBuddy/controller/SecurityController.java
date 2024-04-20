@@ -25,6 +25,7 @@ import java.util.Map;
 @AllArgsConstructor
 @CrossOrigin("*")
 public class SecurityController {
+
     private final AuthenticationService authenticationService;
 
     /**

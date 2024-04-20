@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
+
     private final UserRepository userRepository;
 
     @Override

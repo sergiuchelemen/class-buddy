@@ -32,7 +32,7 @@ public class ClassroomService {
     public ClassroomDTO createClassroom(Classroom classroom, User authenticatedUser) {
         Optional<Classroom> seekedClassroom = classroomRepository.findClassroomByName(classroom.getName());
         if (seekedClassroom.isPresent()) {
-            throw new ClassroomAlreadyExistsException("A classroom with same name is already created.");
+            throw new ClassroomAlreadyExistsException("A classroom with the same name was already created.");
         }
 
         User user = retrieveUserFromDatabase(authenticatedUser);

@@ -35,19 +35,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer")) {
-            filterChain.doFilter(request, response);
+            if (isSecuredEndpoint(request)) {
+                entryPoint.commence(request, response, new UnauthorizedException("Token is missing, invalid or expired."));
+            } else {
+                filterChain.doFilter(request, response);
+            }
             return;
         }
 
-        String jwtToken = authHeader.substring(7);
         try {
+            String jwtToken = authHeader.substring(7);
             String userEmail = jwtTokenService.extractEmail(jwtToken);
             authenticateUser(jwtToken, userEmail, request);
-        } catch (JwtException e) {
+        } catch (IndexOutOfBoundsException | JwtException e) {
             entryPoint.commence(request, response, new UnauthorizedException("Token is missing, invalid or expired."));
             return;
         }
-
         filterChain.doFilter(request, response);
     }
 
@@ -62,5 +65,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
+    }
+
+    private boolean isSecuredEndpoint(HttpServletRequest request) {
+        return !request.getRequestURI().equals("/register") && !request.getRequestURI().equals("/login");
     }
 }

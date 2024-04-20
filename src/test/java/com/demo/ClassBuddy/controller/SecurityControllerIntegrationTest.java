@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SecurityControllerTest {
+class SecurityControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -156,7 +156,7 @@ class SecurityControllerTest {
     @Order(6)
     public void testRefreshToken() throws Exception {
         mockMvc.perform(post("/refresh-token")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateToken())
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateToken(user))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").isNotEmpty())
@@ -175,7 +175,7 @@ class SecurityControllerTest {
                 .andExpect(jsonPath("$.message").value("Token is missing, invalid or expired."));
     }
 
-    private String generateToken() {
+    private String generateToken(User user) {
         return jwtTokenService.generateAccessToken(user);
     }
 }
