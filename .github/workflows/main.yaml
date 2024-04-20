@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-deploy:
+  test:
     name: Continuous integration with Maven
     runs-on: ubuntu-latest
     steps:
@@ -19,8 +19,8 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Unit tests
-        run: mvn -B test --file pom.xml
+      - name: Run unit and integration tests
+        run: mvn clean package
 
       - name: Build the application
         run: mvn -B package --file pom.xml
