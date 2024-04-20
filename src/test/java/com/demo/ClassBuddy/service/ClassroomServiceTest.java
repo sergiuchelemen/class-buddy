@@ -113,7 +113,7 @@ class ClassroomServiceTest {
 
         ClassroomAlreadyExistsException exception = assertThrows(ClassroomAlreadyExistsException.class, () -> classroomService.createClassroom(mathClassroom, user));
 
-        assertEquals("A classroom with same name is already created.", exception.getMessage());
+        assertEquals("A classroom with the same name was already created.", exception.getMessage());
     }
 
     @Test
