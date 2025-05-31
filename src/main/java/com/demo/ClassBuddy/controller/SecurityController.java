@@ -48,13 +48,7 @@ public class SecurityController {
      */
     @PostMapping(path = "/login")
     public LoginResponse authenticate(@RequestBody AuthenticationRequest request) {
-        Map<String, String> tokens = authenticationService.authenticate(request);
-        return new LoginResponse(
-                "User successfully logged in.",
-                ZonedDateTime.now(),
-                tokens.get("accessToken"),
-                tokens.get("refreshToken")
-        );
+        return authenticationService.authenticate(request);
     }
 
     /**

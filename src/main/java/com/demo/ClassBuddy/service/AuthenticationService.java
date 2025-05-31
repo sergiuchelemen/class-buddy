@@ -7,6 +7,7 @@ import com.demo.ClassBuddy.exception.UserNotFoundException;
 import com.demo.ClassBuddy.model.User;
 import com.demo.ClassBuddy.repository.UserRepository;
 import com.demo.ClassBuddy.utility.AuthenticationRequest;
+import com.demo.ClassBuddy.utility.LoginResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -50,18 +53,22 @@ public class AuthenticationService {
         return userDTOMapper.apply(user);
     }
 
-    public Map<String, String> authenticate(AuthenticationRequest authenticationRequest) {
+    public LoginResponse authenticate(AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.email(), authenticationRequest.password())
             );
-            UserDetails user = userDetailsService.loadUserByUsername(authenticationRequest.email());
-            String accessToken = jwtTokenService.generateAccessToken(user);
-            String refreshToken = jwtTokenService.generateRefreshToken(user);
-            Map<String, String> tokens = new HashMap<>();
-            tokens.put("accessToken", accessToken);
-            tokens.put("refreshToken", refreshToken);
-            return tokens;
+            UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.email());
+            String accessToken = jwtTokenService.generateAccessToken(userDetails);
+            String refreshToken = jwtTokenService.generateRefreshToken(userDetails);
+
+            User user = userRepository
+                    .findByEmail(authenticationRequest.email())
+                    .orElseThrow(() -> new UserNotFoundException("User not found."));
+
+            UserDTO userDTO = userDTOMapper.apply(user);
+
+            return new LoginResponse("User successfully logged in.", ZonedDateTime.now(), accessToken, refreshToken, userDTO);
         } catch (BadCredentialsException e) {
             throw new UserNotFoundException("Invalid password.");
         }

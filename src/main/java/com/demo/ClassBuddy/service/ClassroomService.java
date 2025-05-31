@@ -6,8 +6,10 @@ import com.demo.ClassBuddy.exception.ClassroomAlreadyExistsException;
 import com.demo.ClassBuddy.exception.ClassroomNotFound;
 import com.demo.ClassBuddy.exception.StudentAlreadyEnrolledException;
 import com.demo.ClassBuddy.exception.UserNotFoundException;
+import com.demo.ClassBuddy.model.Announcement;
 import com.demo.ClassBuddy.model.Classroom;
 import com.demo.ClassBuddy.model.User;
+import com.demo.ClassBuddy.repository.AnnouncementRepository;
 import com.demo.ClassBuddy.repository.ClassroomRepository;
 import com.demo.ClassBuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,8 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class ClassroomService {
+
     private final ClassroomRepository classroomRepository;
 
     private final UserRepository userRepository;
@@ -30,11 +35,6 @@ public class ClassroomService {
 
     @Transactional
     public ClassroomDTO createClassroom(Classroom classroom, User authenticatedUser) {
-        Optional<Classroom> seekedClassroom = classroomRepository.findClassroomByName(classroom.getName());
-        if (seekedClassroom.isPresent()) {
-            throw new ClassroomAlreadyExistsException("A classroom with the same name was already created.");
-        }
-
         User user = retrieveUserFromDatabase(authenticatedUser);
         String classroomCode = generateClassroomCode();
         classroom.setCode(classroomCode);
@@ -106,5 +106,16 @@ public class ClassroomService {
 
     private String generateClassroomCode() {
         return RandomStringUtils.randomAlphabetic(10);
+    }
+
+    @Transactional
+    public ClassroomDTO getClassroom(Long id) {
+        return classroomRepository.findById(id)
+                .map(classroomDTOMapper)
+                .orElseThrow(() -> new ClassroomNotFound("Classroom not found with id " + id));
+    }
+
+    public void delete(Long classroomId) {
+        classroomRepository.deleteById(classroomId);
     }
 }

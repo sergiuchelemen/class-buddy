@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Classroom> ownedClassrooms;
 
     @ManyToMany
@@ -46,6 +46,9 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "classroom_id")
     )
     private List<Classroom> enrolledClassrooms;
+
+    @OneToMany(mappedBy="createdBy")
+    private List<Announcement> announcementsCreated;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,10 +1,12 @@
 package com.demo.ClassBuddy.controller;
 
 import com.demo.ClassBuddy.dto.ClassroomDTO;
+import com.demo.ClassBuddy.model.Announcement;
 import com.demo.ClassBuddy.model.Classroom;
 import com.demo.ClassBuddy.model.User;
 import com.demo.ClassBuddy.service.ClassroomService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class ClassroomController {
 
     private final ClassroomService classroomService;
@@ -90,5 +93,15 @@ public class ClassroomController {
     public ClassroomDTO joinClassroom(@RequestBody Map<String, String> code, @AuthenticationPrincipal User authenticatedUser) {
         String classroomCode = code.get("classroomCode");
         return classroomService.joinClassroom(classroomCode, authenticatedUser);
+    }
+
+    @GetMapping(path = "{id}")
+    public ClassroomDTO getClassroom(@PathVariable Long id) {
+        return classroomService.getClassroom(id);
+    }
+
+    @DeleteMapping("/{classroomId}")
+    public void deleteClassroom(@PathVariable Long classroomId) {
+        classroomService.delete(classroomId);
     }
 }

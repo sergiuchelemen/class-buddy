@@ -7,6 +7,8 @@ import java.util.function.Function;
 
 @Service
 public class ClassroomDTOMapper implements Function<Classroom, ClassroomDTO> {
+    private final UserDTOMapper userDTOMapper = new UserDTOMapper();
+
     @Override
     public ClassroomDTO apply(Classroom classroom) {
         return new ClassroomDTO(
@@ -14,7 +16,8 @@ public class ClassroomDTOMapper implements Function<Classroom, ClassroomDTO> {
                 classroom.getName(),
                 classroom.getSubject(),
                 classroom.getCode(),
-                classroom.getOwner().getActualUsername()
+                userDTOMapper.apply(classroom.getOwner())
         );
     }
 }
+

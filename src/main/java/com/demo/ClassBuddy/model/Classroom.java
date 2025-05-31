@@ -30,4 +30,7 @@ public class Classroom {
 
     @ManyToMany(mappedBy = "enrolledClassrooms")
     private List<User> students;
+
+    @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)
+    private List<Announcement> announcements;
 }
